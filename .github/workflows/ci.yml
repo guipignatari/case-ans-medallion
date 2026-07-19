@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: "3.10"
 
-      # 3. Instala o Poetry (gerenciador de dependências que você está usando)
+      # 3. Instala o Poetry
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
@@ -42,9 +42,9 @@ jobs:
       # 6. Roda o linter no código SQL (arquivos da pasta sql/)
       - name: Run SQLFluff (SQL Linter)
         run: |
-          # Instala o sqlfluff e o dialeto do Athena (Trino)
+          # Instala o sqlfluff temporariamente no ambiente do Poetry
           poetry run pip install sqlfluff
-          poetry run sqlfluff lint sql/ --dialect trino
+          poetry run sqlfluff lint sql/ --dialect athena
       
       # 7. Roda os testes automatizados com pytest
       - name: Run Unit Tests (Pytest + Moto)
