@@ -8,7 +8,7 @@ Este projeto implementa um pipeline de dados analítico na AWS utilizando a arqu
 
 O pipeline foi desenhado para ser serverless, utilizando o **Amazon S3** como Datalake e o **Amazon Athena** para processamento e transformação.
 
-```mermaid
+```
     A -->[Fonte: CSV ANS] -->|Ingestão| B(S3: Camada Bronze)
     B -->|Limpeza & Tipagem Athena| C(S3: Camada Silver)
     C -->|Agregação Athena| D(S3: Camada Gold)
@@ -31,6 +31,13 @@ Durante o desenvolvimento, algumas decisões arquiteturais foram tomadas visando
 - Particionamento: Intencionalmente não aplicado. Dado que o arquivo fonte possui baixa volumetria (menos de 1MB), o particionamento geraria o Small Files Problem, degradando a performance do Athena ao forçá-lo a abrir múltiplos arquivos minúsculos no S3. O ganho de leitura ocorre inteiramente através do formato Parquet.
 
 - Agregação: Aplicada na camada Gold para elevar o dado transacional (beneficiários) a indicadores sumarizados prontos para consumo por ferramentas de BI, funcionando como uma camada de caching físico no S3.
+
+## Excecução local
+
+```
+poetry run python main.py
+```
+
 
 ## Resultados e Indicadores (Camada Gold)
 
@@ -56,6 +63,6 @@ Os testes validam funções utilitárias críticas (como a leitura e o isolament
 
 Para executar os testes localmente:
 
-```mermaid
+```
 poetry run pytest tests/ -v
 ```
