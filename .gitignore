@@ -1,0 +1,18 @@
+# Cache e arquivos compilados do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cache do Pytest (que será criado quando você rodar o teste)
+.pytest_cache/
+
+# Ambientes Virtuais (Poetry/Venv)
+.venv/
+venv/
+env/
+
+# Configurações locais do VS Code
+.vscode/
+
+# Arquivos de variáveis de ambiente (Nunca suba suas credenciais da AWS!)
+.env

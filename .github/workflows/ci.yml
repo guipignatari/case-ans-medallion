@@ -1,0 +1,53 @@
+name: CI - Data Pipeline Medallion
+
+# Define que o workflow vai rodar em todo push ou pull request para a branch main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixa o código do seu repositório para a máquina virtual
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Instala o Python
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      # 3. Instala o Poetry (gerenciador de dependências que você está usando)
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          export PATH="$HOME/.local/bin:$PATH"
+
+      # 4. Instala as dependências do projeto
+      - name: Install dependencies
+        run: poetry install --no-root
+
+      # 5. Roda o linter no código Python (main.py)
+      - name: Run Flake8 (Python Linter)
+        run: |
+          # Instala o flake8 temporariamente só para o CI
+          poetry run pip install flake8
+          poetry run flake8 main.py --max-line-length=100
+
+      # 6. Roda o linter no código SQL (arquivos da pasta sql/)
+      - name: Run SQLFluff (SQL Linter)
+        run: |
+          # Instala o sqlfluff e o dialeto do Athena (Trino)
+          poetry run pip install sqlfluff
+          poetry run sqlfluff lint sql/ --dialect trino
+      
+      # 7. Roda os testes automatizados com pytest
+      - name: Run Unit Tests (Pytest + Moto)
+        run: |
+          poetry run pip install pytest moto
+          poetry run pytest tests/ -v
