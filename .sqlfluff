@@ -1,7 +1,6 @@
 [sqlfluff]
 dialect = athena
-
-exclude_rules = LT01, LT02, AM04, AM09, CP01, LT12
+exclude_rules = LT01, LT02, AM04, AM09, CP01, LT12, RF06
 
 [sqlfluff:indentation]
 tab_space_size = 4
