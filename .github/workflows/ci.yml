@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Baixa o código do seu repositório para a máquina virtual
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -41,10 +40,7 @@ jobs:
 
       # 6. Roda o linter no código SQL (arquivos da pasta sql/)
       - name: Run SQLFluff (SQL Linter)
-        run: |
-          # Instala o sqlfluff e o dialeto do Athena (Trino)
-          poetry run pip install sqlfluff
-          poetry run sqlfluff lint sql/ --dialect trino
+        run: sqlfluff lint sql/ --dialect athena
       
       # 7. Roda os testes automatizados com pytest
       - name: Run Unit Tests (Pytest + Moto)
