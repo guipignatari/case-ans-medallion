@@ -13,8 +13,6 @@ GROUP BY nome_operadora
 ORDER BY total_beneficiarios DESC
 LIMIT 5;
 
-SELECT * FROM "case_ans_medallion"."gold_top_operadoras" limit 10;
-
 -- B) Qual é a faixa etária com mais beneficiários e quantos são? --
 
 CREATE TABLE IF NOT EXISTS case_ans_medallion.gold_faixa_etaria
